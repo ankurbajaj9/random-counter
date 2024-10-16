@@ -61,11 +61,14 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "random.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "random.name" . }}
+{{- define "random.random.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "random.random.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
-
+{{- define "random.user.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "random.user.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
 
 {{/*
 Create the name of the service account to use
