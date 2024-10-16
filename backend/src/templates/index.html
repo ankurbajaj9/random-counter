@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application</title>
+</head>
+<body>
+<h1>Application</h1>
+<h2>User Service</h2>
+<form id="userForm">
+    <label for="userName">Name:</label>
+    <input type="text" id="userName" name="userName" required>
+    <button type="submit">Create User</button>
+</form>
+<h2>Random Number Service</h2>
+<form id="randomNumberForm">
+    <label for="limit">Limit:</label>
+    <input type="number" id="limit" name="limit" value="1000" required>
+    <button type="submit">Generate Random Number</button>
+</form>
+<div id="result"></div>
+<script>
+    document.getElementById('userForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const userName = document.getElementById('userName').value;
+        fetch('/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: userName })
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = `User created: ${data.name} (ID: ${data.id})`;
+            });
+    });
+
+    document.getElementById('randomNumberForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const limit = document.getElementById('limit').value;
+        fetch(`/generate-random-number?limit=${limit}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = `Random Number: ${data.randomNumber}`;
+            });
+    });
+</script>
+</body>
+</html>
