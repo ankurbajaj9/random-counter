@@ -40,6 +40,15 @@ spec:
             - name: http
               containerPort: {{ .Values.user.service.port }}
               protocol: TCP
+          env:
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_DB
+              value: users
+            - name: POSTGRES_HOST
+              value: {{ include "random.user.fullname" . }}-postgresql
+            - name: POSTGRES_PORT
+              value: "5432"
           livenessProbe:
             {{- toYaml .Values.user.livenessProbe | nindent 12 }}
           readinessProbe:
