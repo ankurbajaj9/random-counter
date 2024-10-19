@@ -15,14 +15,17 @@ spec:
       containers:
         - name: postgres
           image: postgres:13
+          env:
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: trust
           ports:
             - containerPort: 5432
           volumeMounts:
             - name: postgres-config
-              mountPath: /etc/postgresql
+              mountPath: /etc/postgresql/postgresql.conf
               subPath: postgresql.conf
             - name: pg-hba-config
-              mountPath: /etc/postgresql
+              mountPath: /etc/postgresql/pg_hba.conf
               subPath: pg_hba.conf
       volumes:
         - name: postgres-config

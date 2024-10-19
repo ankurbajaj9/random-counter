@@ -17,7 +17,7 @@ random:
   # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   imagePullSecrets: []
   # This is to override the chart name.
-  nameOverride: ""
+  nameOverride: "random"
   fullnameOverride: ""
 
   # This is for setting Kubernetes Annotations to a Pod.
@@ -117,7 +117,7 @@ user:
   # This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   imagePullSecrets: [ ]
   # This is to override the chart name.
-  nameOverride: ""
+  nameOverride: "user"
   fullnameOverride: ""
 
   # This is for setting Kubernetes Annotations to a Pod.

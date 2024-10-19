@@ -51,8 +51,6 @@ Common labels
 */}}
 {{- define "random.labels" -}}
 helm.sh/chart: {{ include "random.chart" . }}
-{{ include "random.random.selectorLabels" . }}
-{{ include "random.user.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
