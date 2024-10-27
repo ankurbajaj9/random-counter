@@ -32,6 +32,15 @@ spec:
         {{- toYaml .Values.random.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          env:
+            - name: DB_USER
+              value: {{ .Values.postgresql.auth.username }}
+            - name: DB_NAME
+              value: users
+            - name: DB_HOST
+              value: {{ include "random.user.fullname" . }}-postgresql
+            - name: DB_PORT
+              value: "5432"
           securityContext:
             {{- toYaml .Values.random.securityContext | nindent 12 }}
           image: "{{ .Values.random.image.repository }}:{{ .Values.random.image.tag | default .Chart.AppVersion }}"

@@ -214,14 +214,20 @@ serviceAccount:
   name: ""
 
 # Postgres helm chart configuration
-global:
-  postgresql:
-    postgresqlDatabase: users
-    postgresqlUsername: user
-    postgresqlPassword: ""
-
-primary:
-  configurationConfigMap: postgres-config
-
-volumePermissions:
-  enabled: true
+postgresql:
+  auth:
+    username: random
+  primary:
+    extraVolumeMounts:
+      - name: custom-postgres-config
+        mountPath: /bitnami/postgresql/conf/postgresql.conf
+        subPath: postgresql.conf
+      - name: custom-postgres-config
+        mountPath: /bitnami/postgresql/conf/pg_hba.conf
+        subPath: pg_hba.conf
+    extraVolumes:
+      - name: custom-postgres-config
+        configMap:
+          name: postgres-config
+  volumePermissions:
+    enabled: true
