@@ -16,7 +16,7 @@
   echo http://$SERVICE1_IP:{{ .Values.random.service.port }}
 {{- else if contains "ClusterIP" .Values.random.service.type }}
   export POD1_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "random.random.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
-  export CONTAINER1_PORT=$(kubectl get pod --namespace {{ .Release.Namespace }} $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  export CONTAINER1_PORT=$(kubectl get pod --namespace {{ .Release.Namespace }} $POD1_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl --namespace {{ .Release.Namespace }} port-forward $POD1_NAME 8080:$CONTAINER1_PORT
 {{- end }}
@@ -38,7 +38,7 @@
   echo http://$SERVICE2_IP:{{ .Values.user.service.port }}
 {{- else if contains "ClusterIP" .Values.user.service.type }}
   export POD2_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "random.user.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
-  export CONTAINER2_PORT=$(kubectl get pod --namespace {{ .Release.Namespace }} $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  export CONTAINER2_PORT=$(kubectl get pod --namespace {{ .Release.Namespace }} $POD2_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
   echo "Visit http://127.0.0.1:8081 to use your application"
   kubectl --namespace {{ .Release.Namespace }} port-forward $POD2_NAME 8081:$CONTAINER2_PORT
 {{- end }}
