@@ -1,15 +1,11 @@
 # user_service.py
 from flask import Flask, request, jsonify
 
-from database import get_db
+from common.user import User
+from common.database import get_db
 
 app = Flask(__name__)
 db = get_db(app)
-
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
 
 
 @app.route('/users', methods=['POST'])

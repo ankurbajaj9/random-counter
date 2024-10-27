@@ -217,6 +217,7 @@ serviceAccount:
 postgresql:
   auth:
     username: random
+    database: users
   primary:
     extraVolumeMounts:
       - name: custom-postgres-config

@@ -3,7 +3,8 @@ import random
 
 from flask import Flask, request, jsonify
 
-from database import get_db
+from common.database import get_db
+from common.user import User
 
 app = Flask(__name__)
 db = get_db(app)
@@ -11,7 +12,8 @@ db = get_db(app)
 
 class GeneratedNumber(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(255), nullable=False)
+    userid = db.Column(db.Integer, nullable=False)
+    limit = db.Column(db.Integer, nullable=False)
     number = db.Column(db.Integer, nullable=False)
 
 
@@ -22,12 +24,14 @@ def generate_random_number():
     limit = data.get('limit', 1000)
     if user is None:
         return jsonify({'error': 'User information is required'}), 400
+    elif User.query.get(user) is None:
+        return jsonify({'error': 'User not found. Please generate a user first'}), 400
 
     random_number = random.randint(0, limit)
+    user_data = User.query.get(user)
 
     # Save to database
-    # Save to database
-    new_number = GeneratedNumber(username=user, number=random_number)
+    new_number = GeneratedNumber(userid=user_data.id, number=random_number, limit=limit)
     db.session.add(new_number)
     db.session.commit()
 
@@ -37,7 +41,7 @@ def generate_random_number():
 @app.route('/get-saved-numbers', methods=['GET'])
 def get_saved_numbers():
     numbers = GeneratedNumber.query.all()
-    result = [{'id': num.id, 'username': num.username, 'number': num.number} for num in numbers]
+    result = [{'id': num.id, 'username': User.query.get(num.userid).name, 'number': num.number, 'limit': num.limit} for num in numbers]
     return jsonify({'savedNumbers': result})
 
 

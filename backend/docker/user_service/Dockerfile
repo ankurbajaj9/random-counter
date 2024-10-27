@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code into the container
 COPY ../../src/user_service.py .
-COPY ../../src/database.py .
+COPY ../../src/common/* ./common/
 
 # Expose the port the app runs on
 EXPOSE 5001
