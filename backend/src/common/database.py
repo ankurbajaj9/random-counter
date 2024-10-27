@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 import os
 
+db = SQLAlchemy()
 
 def get_db(app):
     db_user = os.getenv('DB_USER')
@@ -10,5 +11,5 @@ def get_db(app):
     db_name = os.getenv('DB_NAME')
 
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
-    db = SQLAlchemy(app)
+    db.init_app(app)
     return db

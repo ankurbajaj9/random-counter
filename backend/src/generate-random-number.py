@@ -22,13 +22,13 @@ def generate_random_number():
     data = request.json
     user = data.get('user')
     limit = data.get('limit', 1000)
+    user_data = User.query.filter_by(name=user).first()
     if user is None:
         return jsonify({'error': 'User information is required'}), 400
-    elif User.query.get(user) is None:
+    elif user_data is None:
         return jsonify({'error': 'User not found. Please generate a user first'}), 400
 
     random_number = random.randint(0, limit)
-    user_data = User.query.get(user)
 
     # Save to database
     new_number = GeneratedNumber(userid=user_data.id, number=random_number, limit=limit)
